@@ -37,6 +37,12 @@
                 </div>
                 <div class="col-xs-12">
                     <div class="styled-input wide">
+                        <input type="text" name="cityField" id="city" required />
+                        <label>Cidade<span id="cityError" style="display: none">(Campo Invalido)</span></label>
+                    </div>
+                </div>
+                <div class="col-xs-12">
+                    <div class="styled-input wide">
                         <input type="text" name="addressField" id="address" required />
                         <label>Endereço<span id="addError" style="display: none">(Campo Invalido)</span></label>
                     </div>
@@ -72,6 +78,7 @@
             let confPassword = $('#confPassword').val();
             let address = $('#address').val();
             let addressNumber = $('#addressNumber').val();
+            let city = $('#city').val();
 
             //Verificação de caracteres especiais pelo método de Regex
             var an = /\d/i;
@@ -87,7 +94,8 @@
             arr.push(email.test(emailtest) ? false : true)
             arr.push(password == 0 ? true : false)
             arr.push(password.match(confPassword) ? false : true)
-            arr.push(addressmatch(specialChar) ? true : false)
+            arr.push(address.match(specialChar) ? true : false)
+            arr.push(city.match(specialChar) ? true : false)
             arr.push(addressNumber.match(an) || addressNumber.match(al) || addressNumber.match(specialchar) ? true : false)
 
             console.log(arr)
@@ -105,9 +113,12 @@
                 $('#confPasswordError').css("display", "inline")
             }
             if (arr[6]) {
-                $('#addError').css("display", "inline")
+                $('#cityError').css("display", "inline")
             }
             if (arr[7]) {
+                $('#addError').css("display", "inline")
+            }
+            if (arr[8]) {
                 $('#addressNumberError').css("display", "inline")
             }
             return arr.includes(true) ? false : true

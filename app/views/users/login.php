@@ -7,6 +7,7 @@
 <main>
     <form action="<?php echo URLROOT; ?>/users/login" method="POST" enctype="multipart/form-data">
         <div class="container">
+        <?php flash('register_sucess'); ?>
             <div class="col">
                 <h1>Conecte-se!</h1>
             </div>
@@ -19,7 +20,7 @@
                 </div>
                 <div class="col-md-12">
                     <div class="styled-input wide">
-                        <input type="text" name="passwordField" id="password" required />
+                        <input type="password" name="passwordField" id="password" required />
                         <label>Passowrd<span id="passwordError" style="display: none">(Campo Invalido)</span></label>
                     </div>
                 </div>
