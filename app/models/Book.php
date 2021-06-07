@@ -71,9 +71,20 @@ class Book
         $this->db->bind(':synopsis' , $data['synopsis']);
         $this->db->bind(':book_id' , $data['book_id']);
 
-        if($this->db->execute()){
+        if ($this->db->execute()){
             return true;
         }else return false;
+    }
+
+    public function deleteAnnounce($bookID)
+    {
+        $this->db->query('DELETE FROM books WHERE id_books = :book_id');
+        $this->db->bind(':book_id' , $bookID);
+
+        if ($this->db->execute())
+        {
+            return true;
+        } else return false;
     }
 
 }

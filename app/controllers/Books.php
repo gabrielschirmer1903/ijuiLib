@@ -110,4 +110,16 @@ class Books extends Controller
             } else die('Acesso restrito');
         }
     }
+    public function deleteAnnounce($bookID)
+    {
+        if($_SERVER['REQUEST_METHOD'] == 'POST')
+        {
+            if($this->postModel->deleteAnnounce($bookID)){
+                flash('post_message' , 'Anúncio removido');
+                redirect('books');
+            }
+        } else {
+            die('as');
+        }
+    }
 }

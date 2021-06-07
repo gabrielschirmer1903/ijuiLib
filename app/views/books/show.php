@@ -20,6 +20,9 @@
                             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
                                 <a href="<?php echo URLROOT; ?>/books/editbookannounce/<?php echo $data['announce']->id_books; ?>" type="button" class="btn btn-warning  px-4 me-md-2">Editar Informações</a>
                                 <a type="button" class="btn btn-warning  px-4 me-md-2">Trocar Imagem</a>
+                                <form class="pull-right" action="<?php echo URLROOT; ?>/books/deleteannounce/<?php echo $data['announce']->id_books; ?>" method="POST">
+                                    <input type="submit" value="Deletar" class="btn btn-danger">
+                                </form>
                             </div>
                         <?php endif ?>
                         <?php if ($_SESSION['user_id'] != $data['announce']->id_user) : ?>
@@ -36,4 +39,4 @@
 
         </div>
     </div>
-    <?php require APPROOT . '/views/inc/footer.php'; ?>
+<?php require APPROOT . '/views/inc/footer.php'; ?>
