@@ -33,7 +33,7 @@ class Users extends Controller
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
                 if ($this->userModel->register($data)) {
-                    flash('register_suceess', 'Você está cadastrado');
+                    flash('register_suceess', 'Vocï¿½ estï¿½ cadastrado');
                     redirect('users/login');
                 } else die('Algo deu errado');
             }
@@ -71,7 +71,7 @@ class Users extends Controller
                 // User found
             } else {
                 // User not found
-                $data['email_err'] = 'Usuário não encontrado';
+                $data['email_err'] = 'Usuï¿½rio nï¿½o encontrado';
             }
 
             if (empty($data['email_err']) && empty($data['password_err'])) {
@@ -131,11 +131,9 @@ class Users extends Controller
                     'phone' => trim($_POST['phone'])
                 ];
 
-                if($this->userModel->updateUserInfo($_SESSION['user_id'] , $data)){
 
                     $this->view('users/index', $data);
 
-                } else die('Algo deu errado');
 
             } else {
                 $user = $this->userModel->fetchUserInfo($_SESSION['user_id']);
@@ -143,7 +141,7 @@ class Users extends Controller
                     'user' => $user
                 ];
 
-                $this->view('users/editprofile', $data);
+                $this->view('users/edit_profile', $data);
             }
         }
     }
@@ -154,27 +152,29 @@ class Users extends Controller
             if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
                 $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
-
-                $data = [
-
-                    'email' => trim($_POST['currentpwd']),
-                    'city' => trim($_POST['newpwd']),
-                    'address' => trim($_POST['confnewpwd']),
-                ];
-
-                if($this->userModel->updateUserInfo($_SESSION['user_id'] , $data)){
-
-                    $this->view('users/index', $data);
-
-                } else die('Algo deu errado');
-
-            } else {
                 $user = $this->userModel->fetchUserInfo($_SESSION['user_id']);
                 $data = [
-                    'user' => $user
+
+                    'current_pwd' => $_POST['current_pwd'],
+                    'new_pwd' => trim($_POST['new_pwd']),
+                    'conf_new_pwd' => trim($_POST['conf_new_pwd']),
                 ];
 
-                $this->view('users/editprofile', $data);
+                // echo $user->password;
+                // echo "<br>";
+                // echo (password_hash($data['current_pwd']));
+
+
+                if(password_verify($data['current_pwd'] , $user->password) == $user->password){
+                    if(($data['new_pwd'] == $data['conf_new_pwd'])){
+                        $this->userModel->changePassword($_SESSION['user_id'] , $data);
+                    redirect('users');
+                }else die('As senhas novas nï¿½o sï¿½o iguais');
+
+                } else die('Digite a senha atual corretamente');
+
+            } else {
+                $this->view('users/change_password');
             }
         }
     }

@@ -11,3 +11,4 @@
   define('URLROOT', 'http://localhost/ijuiLib');
   // Site Name
   define('SITENAME', 'IjuiLib');
+  define('PUBROOT' , 'C:\xampp\htdocs\ijuiLib\public\img\bookimages\a');

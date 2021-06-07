@@ -35,6 +35,17 @@ class User
             return true;
         } else return false;
     }
+
+    public function findUserSessionId($id)
+    {
+        $this->db->query('SELECT * FROM users WHERE id = :id');
+        $this->db->bind(':email', $id);
+
+        $row = $this->db->single();
+
+        return $row;
+    }
+
     public function login($email , $password){
         $this->db->query('SELECT * FROM users WHERE email = :email');
         $this->db->bind(':email' , $email);
@@ -77,4 +88,16 @@ class User
         }else return false;
 
     }
-}
+
+    public function changePassword($sessionId , $data)
+    {
+        $this->db->query("UPDATE users
+                            set users.password = :password
+                            WHERE id = :id");
+        $this->db->bind(':password' , password_hash($data['new_pwd'], PASSWORD_DEFAULT));
+        $this->db->bind(':id' , $sessionId);
+
+        $this->db->single();
+    
+    }
+}   

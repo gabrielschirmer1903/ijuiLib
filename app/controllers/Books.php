@@ -6,47 +6,48 @@ class Books extends Controller
         $this->postModel = $this->model('Book');
     }
     public function index()
-    {   
+    {
         $books = $this->postModel->fetchAllBooks();
         $data = [
             'books' => $books
         ];
 
-        $this->view('books/index' , $data);
+        $this->view('books/index', $data);
     }
 
-    public function add(){
-        if($_SERVER['REQUEST_METHOD'] == 'POST'){
+    public function add()
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
 
-            $_POST = filter_input_array(INPUT_POST , FILTER_SANITIZE_STRING);
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
 
-            $image_dir = APPROOT . '\booksimages\a';
-            $image_dir = substr_replace($image_dir ,"",-1);
-            $image_type = strtolower(pathinfo($_FILES['bookImage']['name'] , PATHINFO_EXTENSION));
-            //Mudando o nome da imagem para adicionar Data do momento da criação do formulario e nome do livro inserido
-            $image_temp=($image_dir . date("Y.m.d-H.i.s") . "-" . trim($_POST['bookName'] . "." . $image_type));
-            
+            //$image_dir = APPROOT . '../public/img/bookimages/a';
+            $image_dir = substr_replace(PUBROOT, "", -1);
+            $image_type = strtolower(pathinfo($_FILES['bookImage']['name'], PATHINFO_EXTENSION));
+            //Mudando o nome da imagem para adicionar Data do momento da criaï¿½ï¿½o do formulario e nome do livro inserido
+            $image_temp = ($image_dir . date("Y.m.d-H.i.s") . "-" . trim($_POST['bookName'] . "." . $image_type));
+            $image_name = (date("Y.m.d-H.i.s") . "-" . trim($_POST['bookName'] . "." . $image_type));
+
             $data = [
                 'book_name' => trim($_POST['bookName']),
                 'conditionn' => trim($_POST['bookCondition']),
                 'trade' => trim($_POST['trade']),
                 'synopsis' => trim($_POST['synopsis']),
-                'book_img' => $image_temp,
+                'book_img' => $image_name,
                 'user_id' => trim($_SESSION['user_id'])
-    
-            ];
-            
 
-            if(move_uploaded_file($_FILES["bookImage"]["tmp_name"],$image_temp)){
-                if($_SERVER['REQUEST_METHOD'] == 'POST'){
-                if($this->postModel->addAnnounce($data))
-                {
-                    flash('announce_added' , 'Anúncio Criado');
-                    redirect('books');
-                } else die('Algo deu errado');
+            ];
+
+
+            if (move_uploaded_file($_FILES["bookImage"]["tmp_name"], $image_temp)) {
+                if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+                    if ($this->postModel->addAnnounce($data)) {
+                        flash('announce_added', 'Anï¿½ncio Criado');
+                        redirect('books');
+                    } else die('Algo deu errado');
+                }
             }
-        }
-        }else {
+        } else {
             $data = [
                 'book_name' => '',
                 'condition' => '',
@@ -56,14 +57,57 @@ class Books extends Controller
 
             ];
         }
-        $this->view('books/add' , $data);
+        $this->view('books/add', $data);
     }
 
-    public function show($id){
+    public function bookInfo($id)
+    {
         $row = $this->postModel->getBookByID($id);
-        $data=[
+        $data = [
             'announce' => $row
         ];
-        $this->view('books/show' , $data);
+        $this->view('books/show', $data);
+    }
+
+    public function showUserPosts()
+    {
+        $books = $this->postModel->fetchAllUserBooks($_SESSION['user_id']);
+        $data = [
+            'books' => $books
+        ];
+        
+            $this->view('books/userbooks', $data);
+        
+    }
+
+    public function editBookAnnounce($id)
+    {
+        if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+
+            $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+            $data = [
+                'book_name' => trim($_POST['editName']),
+                'conditionn' => trim($_POST['bookCondition']),
+                'trade' => trim($_POST['trade']),
+                'synopsis' => trim($_POST['synopsis']),
+                'book_id' => $id
+
+            ];
+
+
+            if ($this->postModel->updateAnnounce($data)) {
+                flash('announce_added', 'Anï¿½ncio Criado');
+                redirect('books/index');
+            } else die('Algo deu errado');
+        } else {
+            $row = $this->postModel->getBookByID($id);
+            $data = [
+                'announce' => $row
+            ];
+            if ($data['announce']->id_user == $_SESSION['user_id']) {
+                $this->view('books/editbookinfo', $data);
+            } else die('Acesso restrito');
+        }
     }
 }

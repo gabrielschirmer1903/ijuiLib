@@ -48,4 +48,32 @@ class Book
         $book = $this->db->single();
         return $book;
     }
+    public function fetchAllUserBooks($userID)
+    {
+        $this->db->query('SELECT * FROM books WHERE id_user = :user_id');
+        $this->db->bind(':user_id' , $userID);
+        $res = $this->db->resultSet();
+
+        return $res;
+        
+    }
+    public function updateAnnounce($data)
+    {
+        $this->db->query("UPDATE books
+                            set book_name = :book_name,
+                            condi = :conditionn,
+                            trade = :trade,
+                            synopsis = :synopsis
+                            WHERE id_books = :book_id");
+        $this->db->bind(':book_name' , $data['book_name']);
+        $this->db->bind(':conditionn' , $data['conditionn']);
+        $this->db->bind(':trade' , $data['trade']);
+        $this->db->bind(':synopsis' , $data['synopsis']);
+        $this->db->bind(':book_id' , $data['book_id']);
+
+        if($this->db->execute()){
+            return true;
+        }else return false;
+    }
+
 }
