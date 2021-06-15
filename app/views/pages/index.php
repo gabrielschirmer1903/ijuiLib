@@ -1,7 +1,7 @@
 <body>
   <?php require APPROOT . '/views/inc/header.php'; ?>
 
-  <div class="landing-body">  </div>
+  <div class="landing-body"> </div>
   <div class="bg-text">
 
 
@@ -13,7 +13,8 @@
           </div>
           <div class="col-lg-6">
             <h1 class="display-5 fw-bold lh-1 mb-3">Seja bem-vindo a IjuiLib.</h1>
-            <p class="lead">Mussum Ipsum, cacilds vidis litro abertis. Si u mundo tá muito paradis? Toma um mé que o mundo vai girarzis! Suco de cevadiss, é um leite divinis, qui tem lupuliz, matis, aguis e fermentis. Atirei o pau no gatis, per gatis num morreus. Paisis, filhis, espiritis santis. </p>
+            <p class="lead">O sebo virtual de Ijui e região! Valorizamos o consumo consciente e a cultura do reúso. Aqui você pode anúnciar seu livro e qualquer outro item de leitura
+            </p>
             <div class="d-grid gap-2 d-md-flex justify-content-md-start">
               <a href="<?php echo URLROOT; ?>/users/register" type="button" class="btn btn-outline-secondary btn-lg px-4 me-md-2">Registrar</a>
               <a href="<?php echo URLROOT; ?>/users/login" type="button" class="btn btn-outline-secondary btn-lg px-4">Login</a>
@@ -23,7 +24,7 @@
         </div>
       </div>
     </div>
-    </div>
+  </div>
 
 
-  <?php require APPROOT . '/views/inc/footer.php'; ?>
+    <?php require APPROOT . '/views/inc/footer.php'; ?>

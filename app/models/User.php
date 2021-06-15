@@ -11,13 +11,14 @@ class User
 
     public function register($data)
     {
-        $this->db->query("INSERT INTO users (name,email,password,city,address,address_number) VALUES (:name,:email,:password,:city,:address,:address_number)");
+        $this->db->query("INSERT INTO users (name,email,password,city,address,address_number,phone) VALUES (:name,:email,:password,:city,:address,:address_number,:phone)");
         $this->db->bind(':name', $data['name']);
         $this->db->bind(':email', $data['email']);
         $this->db->bind(':password', $data['password']);
         $this->db->bind(':city', $data['city']);
         $this->db->bind(':address', $data['address']);
         $this->db->bind(':address_number', $data['address_number']);
+        $this->db->bind(':phone' , $data['phone']);
 
         if($this->db->execute())
         {
@@ -83,7 +84,7 @@ class User
         $this->db->bind(':phone' , $data['phone']);
         $this->db->bind(':id' , $sessionId);
 
-        if($this->db->single()){
+        if($this->db->execute()){
             return true;
         }else return false;
 
@@ -100,4 +101,18 @@ class User
         $this->db->single();
     
     }
+    // public function changeUserImage($data , $sessionID)
+    // {
+    //     $this->db->query('UPDATE users 
+    //                         set users.user_image = :user_image
+    //                         WHERE id = :user_id');
+    //     $this->db->bind(':id' , $sessionID);                    
+    //     $this->db->bind(':id' , $data['user_image']); 
+        
+    //     if ($this->db->execute()) 
+    //     {
+    //         return true;
+
+    //     } else return false;
+    // }
 }   

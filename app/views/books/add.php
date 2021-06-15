@@ -2,28 +2,29 @@
     <?php require APPROOT . '/views/inc/header.php'; ?>
 
     <main>
-        <a href="<?php echo URLROOT; ?>/books/index" class="brn btn-primary"><i class="fa fa-backwards"></i>Voltar</a>
+        <br>
+        <br>
         <form action="<?php echo URLROOT; ?>/books/add" method="POST" enctype="multipart/form-data">
             <div class="container announce-book">
                 <div class="row my-5 ">
-                    <div class="col-6 mx-auto">
-                        <h1>Anuncie seu Livro!</h1>
+                    <div class="col-4 offset-4">
+                        <h1 style="text-align: center;">Anuncie seu Livro!</h1>
                     </div>
                 </div>
                 <div class="row pb-3">
                     <div class="col-xs-12">
                         <div class="styled-input wide">
-                            <input class="ann-input" type="text" name="bookName" id="bookname" placeholder="Nome do Livro" required />
                             <label><span id="bnError" style="display: none">(Campo Invalido)</span></label>
+                            <input class="ann-input" type="text" name="bookName" id="bookname" placeholder="Nome do Livro" required />
                         </div>
                     </div>
                 </div>
                 <div class="row pb-3">
-                    <div class="col-md-6">
+                    <div class="col-6">
                         <div style="float:right;">
                             <select class="form-control form-control-lg" id="bookCondition" name="bookCondition">
                                 <optgroup label="Condição">
-                                    <option value="0">Selecione</option>
+                                    <option value="0">Condição</option>
                                     <option value="Semi-novo">Semi-novo</option>
                                     <option value="Boa">Boa</option>
                                     <option value="Velho">Velho</option>
@@ -33,7 +34,7 @@
                             <span id="condiError" style="display: none">(Selecione uma opção)</span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-4">
                         <div style="float:left;">
                             <select class="form-control form-control-lg" id="trade" name="trade">
                                 <optgroup label="Troca">
@@ -49,30 +50,34 @@
                 <div class="row pb-3">
                     <div class="col-12">
                         <div class="styled-input wide">
+                            <span id="sinError" style="display: none">(Preencha)</span>
                             <textarea class="form-control" name="synopsis" id="synopsis" placeholder="De uma sinopse da história" required></textarea>
-                            <label><span id="sinError" style="display: none">(Preencha)</span></label>
+                            <label></label>
                         </div>
                     </div>
                 </div>
                 <div class="row pb-5">
                     <div class="col-6">
                         <div>
-                            <span>Envie uma foto de seu livro</span>
-                            <label style="color: white;">Envie uma foto de seu livro <span id="sinError" style="display: none">(Porfavor, insira uma imagem váldia)</span></label>
+                            <span>Envie uma foto de seu livro</span><span id="imgError" style="display: none">(Porfavor, insira uma imagem váldia)</span>
+                            <label style="color: white;">Envie uma foto de seu livro </label>
                             <input class="form-control" type="file" id="bookImage" name="bookImage" placeholder="Envia uma foto do seu livro">
                         </div>
                     </div>
                 </div>
                 <div class="row mb-4">
-                <div class="offset-5 col-4">
-                    <button id="submit-btn" class="btn btn-lg btn-primary">Enviar</button>
+                    <div class="col offset-3">
+                        <button id="submit-btn" class="btn btn-lg btn-primary">Enviar</button>
+                    </div>
+                    <div class="col">
+                        <a href="<?php redirect('index'); ?>" type="button" class="btn btn-lg btn-danger">Cancelar</a>
+                    </div>
                 </div>
-                </div>
-            </div>
             </div>
         </form>
     </main>
 
+    <script src="//code.jquery.com/jquery.min.js"></script>
     <script type="text/javascript">
         //Adicionando a navbar na pagina atraves de JS
         $.get("layout/header.html", function(data) {
@@ -80,8 +85,6 @@
         });
 
         $(document).ready(function() {
-
-
             $("#submit-btn").on('click', function() {
                 let arr = []
                 // let fullname = $('#fullname').val();
@@ -106,9 +109,6 @@
                 arr.push(trade == 0 || trade == "0" ? true : false)
                 arr.push(synopsis == "" ? true : false)
 
-                arr.push(false)
-                arr.push(false)
-
                 if ((imageSplit.toLowerCase() == 'jpg') || (imageSplit.toLowerCase() == 'png') || (imageSplit.toLowerCase() == 'jpeg')) {
                     arr.push(false);
                 } else {
@@ -117,26 +117,24 @@
 
                 console.log(arr)
 
-                if (arr[0] || arr[1]) {
-                    $('#propError').css("display", "inline")
-                }
-                if (arr[2]) {
+                if (arr[0]) {
                     $('#bnError').css("display", "inline")
                 }
-                if (arr[3]) {
-                    $('#condiError').css("display", "inline")
-                }
-                if (arr[4]) {
+                if (arr[2]) {
                     $('#tradeError').css("display", "inline")
                 }
-                if (arr[5]) {
+                if (arr[1]) {
+                    $('#condiError').css("display", "inline")
+                }
+                if (arr[3]) {
                     $('#sinError').css("display", "inline")
                 }
-                if (arr[6]) {
+                if (arr[4]) {
                     $('#imgError').css("display", "inline")
                 }
                 return arr.includes(true) ? false : true
             })
         });
+    </script>
 
-        <?php require APPROOT . '/views/inc/footer.php'; ?>
+    <?php require APPROOT . '/views/inc/footer.php'; ?>

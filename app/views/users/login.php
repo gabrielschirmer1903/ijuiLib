@@ -1,29 +1,30 @@
 <body>
     <?php require APPROOT . '/views/inc/header.php'; ?>
     <div class="landing-body"> </div>
-    <div class="login">
+    <div style="top: 45% !important;" class="login">
         <div class="container">
             <div class="row my-5">
                 <div class="col-6 mx-auto">
-                    <h2>Conecte-se!</h2>
+                    <h2 class="display-5 fw-bold lh-1 mb-3">Conecte-se!</h2>
                 </div>
             </div>
+
             <form action="<?php echo URLROOT; ?>/users/login" method="POST" enctype="multipart/form-data">
                 <div class="row my-5">
-                    <div class="col-6 mx-auto">
+                    <div class="col-10 mx-auto">
                         <label><span id="emailError" style="display: none">(Campo Invalido)</span></label>
                         <input class="login-input" type="email" name="emailField" id="email" required placeholder="E-mail">
                     </div>
                 </div>
                 <div class="row my-4">
-                    <div class="col-6 mx-auto">
+                    <div class="col-10 mx-auto">
                         <label><span id="passwordError" style="display: none">(Campo Invalido)</span></label>
                         <input class="login-input" type="password" name="passwordField" id="password" required placeholder="Password">
                     </div>
                 </div>
                 <div class="row my-3">
                     <div class="col-4 offset-6">
-                        <a style="color: white;" href="<?php echo URLROOT; ?>/users/register">Não possue uma conta? Registre-se!</a>
+                        <a style="color: white;" href="<?php echo URLROOT; ?>/users/register">Registre-se!</a>
                     </div>
                 </div>
                 <div class="row">
@@ -34,12 +35,9 @@
             </form>
         </div>
     </div>
+    <script src="//code.jquery.com/jquery.min.js"></script>
     <script type="text/javascript">
         //Adicionando a navbar na pagina atraves de JS
-        $.get("layout/header.html", function(data) {
-            $("#navbar-placeholder").replaceWith(data);
-        });
-
         $(document).ready(function() {
 
 
@@ -47,7 +45,6 @@
                 let arr = []
                 let email = $('#email').val();
                 let password = $('#password').val();
-                let confPassword = $('#confPassword').val();
 
                 //Verifica??o de caracteres especiais pelo m?todo de Regex
                 var an = /\d/i;
@@ -64,10 +61,10 @@
                 console.log(arr)
 
                 if (arr[0] || arr[1]) {
-                    $('#propError').css("display", "inline")
+                    $('#emailError').css("display", "inline")
                 }
                 if (arr[2]) {
-                    $('#emailError').css("display", "inline")
+                    $('#passwordError').css("display", "inline")
                 }
                 return arr.includes(true) ? false : true
             })

@@ -3,13 +3,13 @@
 <div class="container">
 
     <div style="border-bottom:2px solid black;" class="row my-3">
-        <div class="col-md-3 offset-1 bottom-liner">
-            <h1>Anúncios</h1>
+        <div class="col-md-3 bottom-liner-2">
+            <h1 style="text-align: center;">Anúncios</h1>
         </div>
         <?php if (isset($_SESSION['user_id'])) : ?>
-            <div class="col-md-6">
+            <div class="offset-3 col-6">
 
-                <a href="<?php echo URLROOT; ?>/books/add" class="btn btn-primary pull-right" style="float:right !important">
+                <a href="<?php echo URLROOT; ?>/books/add" class="btn btn-primary btn-lg btn-block" style="float:right !important">
                     <i class="fa fa-pencil"></i> Publicar anúncio</a>
 
             </div>
@@ -20,12 +20,12 @@
         $i = 0;
         foreach ($data['books'] as $books) : ?>
             <div class="col-xl-3 py-1 ">
-                <div class="card bg-book" style="width: 288px; height: 566px">
+                <div class="card bg-book max-card-size">
                     <img src="<?php echo URLROOT; ?>/img/bookimages/<?php echo $books->book_image; ?>" class="max-size" alt="">
                     <div class="card-body">
-                        <h5 class="card-title bottom-liner" name="booktitle"> <?php echo $books->book_name; ?></h5>
+                        <h4 class="card-title bottom-liner-2" name="booktitle"> <?php echo $books->book_name; ?></h4>
                         <p class="card-text">Condições: <?php echo $books->condi; ?></p>
-                        <p class="card-text">Tipo de troca: <?php echo $books->trade; ?></p>
+                        <p class="card-text bottom-liner-1">Tipo de troca: <?php echo $books->trade; ?></p>
                         <a href="<?php echo URLROOT; ?>/books/bookinfo/<?php echo $books->id_books; ?>" class="btn btn-secondary content_align stretched-link">Ver Anúncio</a>
                         <!-- Enviando o ID do livro dentro do banco de dados para a URL -->
                     </div>

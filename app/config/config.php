@@ -11,4 +11,7 @@
   define('URLROOT', 'http://localhost/ijuiLib');
   // Site Name
   define('SITENAME', 'IjuiLib');
-  define('PUBROOT' , 'C:\xampp\htdocs\ijuiLib\public\img\bookimages\a');
+  $var = substr_replace(APPROOT, "", -3);
+  define('PUBROOT' , $var . 'public\img\bookimages\a');
+  define('IMGUSEROOT' , $var . 'public\img\userimages\a');
+  define('IMGOFFERROOT' , $var . 'public\img\offerimages\a');

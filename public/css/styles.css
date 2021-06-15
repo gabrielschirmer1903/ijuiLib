@@ -14,17 +14,33 @@ body {
   -webkit-filter: blur(4px);
   /* Full height */
   height: 100%;
+  min-height: 1011px;
   width: auto;
   /* Center and scale the image nicely */
   background-position: center;
-  background-repeat: no-repeat;
+  background-repeat: repeat-y;
+  background-size: cover;
+}
+
+.landing-body2 {
+  background-image: url("../img/landing-bg.jpg");
+  /* Add the blur effect */
+  filter: blur(4px);
+  -webkit-filter: blur(4px);
+  /* Full height */
+  height: 100%;
+  min-height: 1600px;
+  width: auto;
+  /* Center and scale the image nicely */
+  background-position: center;
+  background-repeat: repeat-y;
   background-size: cover;
 }
 
 .bg-text {
   font-weight: bold;
   position: absolute;
-  top: 40%;
+  top: 55%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
@@ -32,10 +48,6 @@ body {
   width: 100%;
   padding: 20px;
   text-align: center;
-}
-
-.teste {
-  padding-top: 300px;
 }
 
 .hero {
@@ -117,12 +129,12 @@ body {
   font-weight: bold;
   border: 3px solid #f1f1f1;
   position: absolute;
-  top: 50%;
+  top: 70%;
   left: 50%;
   -webkit-transform: translate(-50%, -50%);
           transform: translate(-50%, -50%);
   z-index: 2;
-  width: 60%;
+  width: 90%;
   padding: 20px;
   text-align: center;
 }
@@ -266,8 +278,6 @@ body {
   -webkit-box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
           box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
   border: 1px solid black;
-  top: 40%;
-  width: 40% !important;
 }
 
 .ann-input {
@@ -303,14 +313,10 @@ body {
   text-align: center;
 }
 
-.asdasdx {
-  margin-left: 10px;
-  background-color: lightgray;
-}
-
 .max-size {
   height: 380px;
-  width: 285px;
+  width: 100%;
+  display: block;
 }
 
 .bottom-liner-2 {
@@ -319,5 +325,9 @@ body {
 
 .bottom-liner-1 {
   border-bottom: 1px solid black;
+}
+
+.max-card-size {
+  height: 566px !important;
 }
 /*# sourceMappingURL=styles.css.map */

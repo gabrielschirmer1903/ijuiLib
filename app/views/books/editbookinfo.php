@@ -11,14 +11,15 @@
                 </div>
                 <div class="row">
                     <div class="form-outline mb-4">
+                    <span id="propError" style="display: none;">(Campo Inválido)</span>
                         <input type="text" id="editNameField" name="editName" class="form-control" value="<?php echo $data['announce']->book_name; ?>" />
                         <label class="form-label" for="form4Example1">Titulo do Livro</label>
-                        <span id="propError" style="display: none;">(Campo Inválido)</span>
+                        
                     </div>
                 </div>
 
                 <div class="row mb-4">
-                <div class="col-md-6">
+                    <div class="col-6">
                         <div style="float:right;">
                             <select class="form-control form-control-lg" id="bookCondition" name="bookCondition">
                                 <optgroup label="Condição">
@@ -32,11 +33,11 @@
                             <span id="condiError" style="display: none">(Selecione uma opção)</span>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-6">
                         <div style="float:left;">
                             <select class="form-control form-control-lg" id="trade" name="trade">
                                 <optgroup label="Troca">
-                                    <option value="Troca" select>Tipo de Troca</option>
+                                    <option value="0" select>Tipo de Troca</option>
                                     <option value="Permanente">Permanente</option>
                                     <option value="Boa">Temporária</option>
                                 </optgroup>
@@ -53,59 +54,61 @@
                         <span id="synError" style="display: none;">(Campo Inválido)</span>
                     </div>
                 </div>
-
-                <button name="submit-btn" type="submit" class="btn btn-primary btn-block mb-4">Salvar Perfil</button>
+                <div class="mb-4">
+                    <button name="submit-btn" id="submit-btn" type="submit" class="btn btn-primary btn-block">Salvar Alterações</button>
+                    <a href="<?php echo URLROOT; ?>/books/bookinfo/<?php echo $data['announce']->id_books; ?>" class="btn btn-danger btn-block">Cancelar</a>
+                </div>
             </form>
         </div>
     </div>
 
+    <script src="//code.jquery.com/jquery.min.js"></script>
     <script type="text/javascript">
-            //Adicionando a navbar na pagina atraves de JS
-            $.get("layout/header.html", function(data) {
-                $("#navbar-placeholder").replaceWith(data);
-            });
+        //Adicionando a navbar na pagina atraves de JS
+        $.get("layout/header.html", function(data) {
+            $("#navbar-placeholder").replaceWith(data);
+        });
 
-            $(document).ready(function() {
+        $(document).ready(function() {
 
+            console.log('asd')
+            $("#submit-btn").on('click', function() {
+                let arr = []
+                let bookname = $('#editNameField').val();
+                let bookcondi = $('#bookCondition').val();
+                let trade = $('#trade').val();
+                let synopsis = $('#synopsis').val();
 
-                $("#submit-btn").on('click', function() {
-                    let arr = []
-                    let bookname = $('#editName').val();
-                    let bookcondi = $('#bookCondition').val();
-                    let trade = $('#trade').val();
-                    let synopsis = $('#synopsis').val();
+                //Verifica��o de caracteres especiais pelo m�todo de Regex
+                var an = /\d/i;
+                var al = /\D/i;
+                var specialChar = /[#%$^~!&*()_+\-=\[\]{}"\\|<>\/]/g;
+                var emailtest = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-                    //Verifica��o de caracteres especiais pelo m�todo de Regex
-                    var an = /\d/i;
-                    var al = /\D/i;
-                    var specialChar = /[#%$^~!&*()_+\-=\[\]{}"\\|<>\/]/g;
-                    var emailtest = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                //Criando um array de booleanos, o formulario apenas sera enviado ao banco de dados se
+                //todas as verifica��es forem falso
+                arr.push(bookname.length == 0 ? true : false)
+                arr.push(bookcondi == 0 || condition == "0" ? true : false)
+                arr.push(trade == 0 || trade == "0" ? true : false)
+                arr.push(synopsis == "" ? true : false)
 
-                    //Criando um array de booleanos, o formulario apenas sera enviado ao banco de dados se
-                    //todas as verifica��es forem falso
-                    arr.push(bookname.length == 0 || (fullname).match(an) ? true : false)
-                    arr.push((bookname).match(specialChar) ? true : false)
-                    arr.push(condition == 0 || condition == "0" ? true : false)
-                    arr.push(trade == 0 || trade == "0" ? true : false)
-                    arr.push(synopsis == "" ? true : false)
+                console.log(arr)
 
-                    console.log(arr)
-
-                    if (arr[0] || arr[1]) {
-                        $('#propError').css("display", "inline")
-                    }
-                    if (arr[2]) {
-                        $('#condiError').css("display", "inline")
-                    }
-                    if (arr[3]) {
-                        $('#trade').css("display", "inline")
-                    }
-                    if (arr[4]) {
-                        $('#synError').css("display", "inline")
-                    }
-                    return arr.includes(true) ? false : true
-                })
-            });
-        </script>
+                if (arr[0]) {
+                    $('#propError').css("display", "inline")
+                }
+                if (arr[1]) {
+                    $('#condiError').css("display", "inline")
+                }
+                if (arr[2]) {
+                    $('#tradeError').css("display", "inline")
+                }
+                if (arr[3]) {
+                    $('#synError').css("display", "inline")
+                }
+                return arr.includes(true) ? false : true
+            })
+        });
+    </script>
 
     <?php require APPROOT . '/views/inc/footer.php'; ?>

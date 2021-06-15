@@ -22,7 +22,8 @@ class Users extends Controller
                 'confirm_passowrd' => trim($_POST['conPasswordField']),
                 'city' => trim($_POST['cityField']),
                 'address' => trim($_POST['addressField']),
-                'address_number' => trim($_POST['addressNumberField'])
+                'address_number' => trim($_POST['addressNumberField']),
+                'phone' => trim($_POST['phoneNumber'])
 
             ];
 
@@ -33,7 +34,7 @@ class Users extends Controller
                 $data['password'] = password_hash($data['password'], PASSWORD_DEFAULT);
 
                 if ($this->userModel->register($data)) {
-                    flash('register_suceess', 'Voc� est� cadastrado');
+                    flash('register_success', 'Você está cadastrado');
                     redirect('users/login');
                 } else die('Algo deu errado');
             }
@@ -131,10 +132,10 @@ class Users extends Controller
                     'phone' => trim($_POST['phone'])
                 ];
 
-
-                    $this->view('users/index', $data);
-
-
+                if ($this->userModel->updateUserInfo($_SESSION['user_id'], $data)){
+                    redirect('users/profile');
+                }die('Algo inesperado aconteceu');
+                
             } else {
                 $user = $this->userModel->fetchUserInfo($_SESSION['user_id']);
                 $data = [
@@ -165,14 +166,12 @@ class Users extends Controller
                 // echo (password_hash($data['current_pwd']));
 
 
-                if(password_verify($data['current_pwd'] , $user->password) == $user->password){
-                    if(($data['new_pwd'] == $data['conf_new_pwd'])){
-                        $this->userModel->changePassword($_SESSION['user_id'] , $data);
-                    redirect('users');
-                }else die('As senhas novas n�o s�o iguais');
-
+                if (password_verify($data['current_pwd'], $user->password) == $user->password) {
+                    if (($data['new_pwd'] == $data['conf_new_pwd'])) {
+                        $this->userModel->changePassword($_SESSION['user_id'], $data);
+                        redirect('users');
+                    } else die('As senhas novas n�o s�o iguais');
                 } else die('Digite a senha atual corretamente');
-
             } else {
                 $this->view('users/change_password');
             }
@@ -194,4 +193,33 @@ class Users extends Controller
         session_destroy();
         redirect('users/login');
     }
+
+    // public function changeUserImage()
+    // {
+    //     die('teste');
+    //     if (isLoggendIn()) {
+    //         if ($_SERVER['REQUEST_METHOD'] == 'POST') {
+    //             $_POST = filter_input_array(INPUT_POST, FILTER_SANITIZE_STRING);
+
+    //             $sessionID = $_SESSION['user_id'];
+    //             //$image_dir = APPROOT . '../public/img/bookimages/a';
+    //             $image_dir = substr_replace(IMGUSEROOT, "", -1);
+    //             $image_type = strtolower(pathinfo($_FILES['changeUserImage']['name'], PATHINFO_EXTENSION));
+    //             //Mudando o nome da imagem para adicionar Data do momento da cria��o do formulario e nome do livro inserido
+    //             $image_temp = ($image_dir . date("Y.m.d-H.i.s") . "-" . trim($_POST['changeUserImage'] . "." . $image_type));
+    //             $image_name = (date("Y.m.d-H.i.s") . "-" . trim($_POST['changeUserImage'] . "." . $image_type));
+
+    //             $data = [
+    //                 'user_image' => $image_name
+    //             ];
+
+    //             if (move_uploaded_file($_FILES["changeUserImage"]["tmp_name"], $image_temp)) {
+    //                 if ($this->postModel->changeUserImage($data , $sessionID)) {
+    //                     flash('announce_added', 'Imagem atualizada');
+    //                     redirect('users');
+    //                 } else die('Algo deu errado');
+    //             }
+    //         }
+    //     }
+    // }
 }
